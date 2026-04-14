@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kontakt – Erledi</title>
+<meta name="description" content="Kontaktiere Erledi bei Fragen, Problemen oder Partneranfragen. Wir sind für dich da.">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="stylesheet" href="erledi-shared.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --blue: #2563EB; --blue-dark: #1E40AF; --blue-light: #EFF6FF; --blue-mid: #DBEAFE;
+    --green: #16A34A; --green-light: #F0FDF4; --green-mid: #BBF7D0;
+    --text: #111827; --text-muted: #6B7280; --border: #E5E7EB;
+    --bg: #FFFFFF; --bg-soft: #F9FAFB; --radius: 12px; --radius-sm: 8px;
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+  }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: var(--text); background: var(--bg-soft); line-height: 1.7; }
+  a { color: inherit; text-decoration: none; }
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.25rem; color: var(--blue); }
+  .nav-logo svg { width: 36px; height: 36px; }
+  .nav-links { display: flex; align-items: center; gap: 1.5rem; }
+  .nav-links a { font-size: 0.9rem; color: var(--text-muted); transition: color 0.15s; }
+  .nav-links a:hover { color: var(--text); }
+  .btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.55rem 1.25rem; border-radius: var(--radius-sm); font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: all 0.15s; border: 1.5px solid transparent; }
+  .btn-ghost { border-color: var(--border); color: var(--text); background: var(--bg); }
+  .btn-primary { background: var(--blue); color: #fff; border-color: var(--blue); }
+  .btn-primary:hover { background: var(--blue-dark); }
+  .btn-green { background: var(--green); color: #fff; border-color: var(--green); }
+
+  .hero { background: linear-gradient(160deg, var(--blue-light) 0%, var(--bg) 70%); padding: 4rem 1.5rem 3rem; text-align: center; }
+  .badge { display: inline-flex; align-items: center; gap: 6px; background: var(--blue-mid); color: var(--blue-dark); padding: 0.3rem 0.9rem; border-radius: 999px; font-size: 0.78rem; font-weight: 600; margin-bottom: 1.25rem; }
+  .hero h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; margin-bottom: 0.75rem; }
+  .hero p { color: var(--text-muted); font-size: 1rem; max-width: 480px; margin: 0 auto; }
+
+  .main { max-width: 960px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+  .two-col { display: grid; grid-template-columns: 1fr 380px; gap: 2rem; align-items: start; }
+
+  /* CONTACT CARDS */
+  .contact-cards { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; }
+  .contact-card { background: var(--bg); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; transition: all 0.15s; }
+  .contact-card:hover { border-color: var(--blue); box-shadow: var(--shadow-md); }
+  .contact-card-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+  .icon-blue { background: var(--blue-light); }
+  .icon-green { background: var(--green-light); }
+  .icon-gray { background: var(--bg-soft); }
+  .contact-card-text h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.15rem; }
+  .contact-card-text p { font-size: 0.8rem; color: var(--text-muted); }
+  .contact-card-text a { color: var(--blue); font-size: 0.875rem; font-weight: 500; }
+
+  /* RESPONSE TIMES */
+  .response-times { background: var(--bg); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1rem; }
+  .response-times h3 { font-size: 0.875rem; font-weight: 700; margin-bottom: 1rem; color: var(--text); }
+  .response-item { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid var(--border); font-size: 0.82rem; }
+  .response-item:last-child { border-bottom: none; }
+  .response-item span:first-child { color: var(--text-muted); }
+  .response-badge { background: var(--green-light); color: var(--green); font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 999px; }
+
+  /* FORM */
+  .form-card { background: var(--bg); border: 1.5px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-md); overflow: hidden; }
+  .form-card-header { background: var(--blue); color: #fff; padding: 1.25rem 1.5rem; }
+  .form-card-header h3 { font-size: 1rem; font-weight: 700; }
+  .form-card-header p { font-size: 0.8rem; opacity: 0.85; margin-top: 0.2rem; }
+  .form-body { padding: 1.5rem; }
+  .form-group { margin-bottom: 1rem; }
+  .form-group label { display: block; font-size: 0.75rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.35rem; text-transform: uppercase; letter-spacing: 0.04em; }
+  .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.65rem 0.9rem; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-size: 0.9rem; outline: none; transition: border-color 0.15s; background: var(--bg); color: var(--text); font-family: inherit; }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--blue); }
+  .form-group textarea { resize: vertical; min-height: 100px; }
+  .form-submit { width: 100%; padding: 0.75rem; font-size: 0.95rem; border-radius: var(--radius-sm); margin-top: 0.25rem; cursor: pointer; background: var(--blue); color: #fff; border: none; font-weight: 600; transition: background 0.15s; }
+  .form-submit:hover { background: var(--blue-dark); }
+  .success-msg { display: none; text-align: center; padding: 2rem; }
+  .success-msg .check { font-size: 3rem; margin-bottom: 0.75rem; }
+  .success-msg h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .success-msg p { font-size: 0.82rem; color: var(--text-muted); }
+
+  /* IMPRESSUM */
+  .impressum { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; margin-top: 1rem; }
+  .impressum h3 { font-size: 0.875rem; font-weight: 700; margin-bottom: 0.75rem; }
+  .impressum p { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.3rem; }
+
+  footer { background: #111827; color: #9CA3AF; padding: 2rem 1.5rem; text-align: center; font-size: 0.8rem; }
+  .footer-logo { display: flex; align-items: center; gap: 8px; justify-content: center; color: #fff; font-weight: 700; font-size: 1.1rem; margin-bottom: 0.75rem; }
+  footer a { color: #6B7280; margin: 0 0.5rem; }
+  footer a:hover { color: #fff; }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .two-col { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg viewBox="0 0 36 36" fill="none"><rect width="36" height="36" rx="10" fill="#2563EB"/><path d="M10 18.5L15.5 24L26 13" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    erledi
+  </a>
+  <div class="nav-links">
+    <a href="dienstleistungen.html">Dienstleistungen</a>
+    <a href="wie-es-funktioniert.html">So funktioniert's</a>
+    <a href="anbieter-werden.html">Anbieter werden</a>
+    <a href="ueber-uns.html">Über uns</a>
+  </div>
+  <div style="display:flex;gap:0.75rem;">
+    <a href="anbieter-werden.html" class="btn btn-ghost">Einloggen</a>
+    <a href="index.html" class="btn btn-primary">Jetzt starten</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="badge">💬 Wir helfen gerne</div>
+  <h1>Kontakt</h1>
+  <p>Fragen, Feedback oder Probleme? Wir sind für dich da — schnell und unkompliziert.</p>
+</div>
+
+<div class="main">
+  <div class="two-col">
+
+    <!-- LEFT -->
+    <div>
+      <div class="contact-cards">
+        <div class="contact-card">
+          <div class="contact-card-icon icon-blue">📧</div>
+          <div class="contact-card-text">
+            <h4>E-Mail</h4>
+            <p>Für allgemeine Anfragen</p>
+            <a href="mailto:info@erledi.ch">info@erledi.ch</a>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-card-icon icon-green">🤝</div>
+          <div class="contact-card-text">
+            <h4>Anbieter & Partnerschaften</h4>
+            <p>Du willst Aufträge erhalten?</p>
+            <a href="anbieter-werden.html">Jetzt registrieren →</a>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-card-icon icon-blue">🔒</div>
+          <div class="contact-card-text">
+            <h4>Datenschutz</h4>
+            <p>Anfragen zu deinen Daten</p>
+            <a href="mailto:datenschutz@erledi.ch">datenschutz@erledi.ch</a>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-card-icon icon-gray">⚠️</div>
+          <div class="contact-card-text">
+            <h4>Problem mit einem Auftrag</h4>
+            <p>Streit oder Rückerstattung</p>
+            <a href="mailto:support@erledi.ch">support@erledi.ch</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="response-times">
+        <h3>Unsere Antwortzeiten</h3>
+        <div class="response-item"><span>Allgemeine Anfragen</span><span class="response-badge">innerhalb 24h</span></div>
+        <div class="response-item"><span>Support & Probleme</span><span class="response-badge">innerhalb 4h</span></div>
+        <div class="response-item"><span>Datenschutzanfragen</span><span class="response-badge">innerhalb 30 Tage</span></div>
+        <div class="response-item"><span>Streitbeilegung</span><span class="response-badge">innerhalb 5 Werktage</span></div>
+      </div>
+
+      <div class="impressum">
+        <h3>Impressum</h3>
+        <p><strong>Erledi</strong></p>
+        <p>Solothurn, Schweiz</p>
+        <p>E-Mail: <a href="mailto:info@erledi.ch" style="color:var(--blue);">info@erledi.ch</a></p>
+        <p style="margin-top:0.5rem;font-size:0.75rem;">Verantwortlich für den Inhalt: Erledi, Solothurn</p>
+      </div>
+    </div>
+
+    <!-- RIGHT: FORM -->
+    <div class="form-card">
+      <div class="form-card-header">
+        <h3>Nachricht senden</h3>
+        <p>Wir antworten innerhalb von 24 Stunden</p>
+      </div>
+      <div class="form-body" id="contact-form">
+        <div class="form-group">
+          <label>Dein Name</label>
+          <input type="text" placeholder="Vor- und Nachname">
+        </div>
+        <div class="form-group">
+          <label>E-Mail</label>
+          <input type="email" placeholder="deine@email.ch">
+        </div>
+        <div class="form-group">
+          <label>Ich bin...</label>
+          <select>
+            <option>Kunde (suche jemanden)</option>
+            <option>Anbieter (biete Dienste an)</option>
+            <option>Presse / Media</option>
+            <option>Anderes</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Betreff</label>
+          <select>
+            <option>Allgemeine Frage</option>
+            <option>Problem mit einem Auftrag</option>
+            <option>Rückerstattung</option>
+            <option>Technisches Problem</option>
+            <option>Partnerschaft / Zusammenarbeit</option>
+            <option>Datenschutz</option>
+            <option>Anderes</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Nachricht</label>
+          <textarea placeholder="Beschreibe dein Anliegen so genau wie möglich..."></textarea>
+        </div>
+        <button class="form-submit" onclick="sendMessage()">Nachricht senden →</button>
+        <p style="font-size:0.72rem;color:var(--text-muted);text-align:center;margin-top:0.75rem;">Mit dem Absenden akzeptierst du unsere <a href="datenschutz.html" style="color:var(--blue);">Datenschutzerklärung</a>.</p>
+      </div>
+      <div class="success-msg" id="success-msg">
+        <div class="check">✅</div>
+        <h4>Nachricht erhalten!</h4>
+        <p>Wir melden uns innerhalb von 24 Stunden bei dir. Bitte prüfe auch deinen Spam-Ordner.</p>
+        <button class="btn btn-primary" style="margin-top:1rem;width:100%;" onclick="resetForm()">Weitere Frage stellen</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">
+    <svg viewBox="0 0 36 36" fill="none" width="28" height="28"><rect width="36" height="36" rx="10" fill="#2563EB"/><path d="M10 18.5L15.5 24L26 13" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    erledi
+  </div>
+  <div style="margin-bottom:0.5rem;">
+    <a href="index.html">Startseite</a>
+    <a href="ueber-uns.html">Über uns</a>
+    <a href="datenschutz.html">Datenschutz</a>
+    <a href="agb.html">AGB</a>
+  </div>
+  <div>© 2026 Erledi – 🇨🇭 Made in Solothurn</div>
+</footer>
+
+<script>
+function sendMessage() {
+  document.getElementById('contact-form').style.display = 'none';
+  document.getElementById('success-msg').style.display = 'block';
+}
+function resetForm() {
+  document.getElementById('contact-form').style.display = 'block';
+  document.getElementById('success-msg').style.display = 'none';
+}
+</script>
+<script>
+function toggleMenu(){
+  var h=document.getElementById('hamburger');
+  var m=document.getElementById('mobile-menu');
+  if(h && m){
+    h.classList.toggle('open');
+    m.classList.toggle('open');
+    document.body.style.overflow=m.classList.contains('open')?'hidden':'';
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg viewBox="0 0 36 36" fill="none"><rect width="36" height="36" rx="10" fill="#2563EB"/><path d="M10 18.5L15.5 24L26 13" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    erledi
+  </a>
+  <div class="nav-links">
+    <a href="dienstleistungen.html">Dienstleistungen</a>
+    <a href="wie-es-funktioniert.html">So funktionierts</a>
+    <a href="anbieter-werden.html">Anbieter werden</a>
+    <a href="ueber-uns.html">Über uns</a>
+  </div>
+  <div class="nav-cta-desktop">
+    <a href="anbieter-werden.html" class="btn btn-ghost">Einloggen</a>
+    <a href="index.html" class="btn btn-primary">Jetzt starten</a>
+  </div>
+  <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="dienstleistungen.html">Dienstleistungen</a>
+  <a href="wie-es-funktioniert.html">So funktionierts</a>
+  <a href="anbieter-werden.html">Anbieter werden</a>
+  <a href="ueber-uns.html">Über uns</a>
+  <a href="kontakt.html">Kontakt</a>
+  <div class="mobile-menu-divider"></div>
+  <a href="anbieter-werden.html" class="btn btn-primary">Jetzt starten</a>
+</div>

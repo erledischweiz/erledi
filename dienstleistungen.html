@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dienstleistungen – Erledi</title>
+<meta name="description" content="Alle Dienstleistungen auf Erledi: Reinigung, Umzug, Gartenarbeit, Handwerk, IT, Kinderbetreuung und mehr in deiner Region.">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --blue: #2563EB; --blue-dark: #1E40AF; --blue-light: #EFF6FF; --blue-mid: #DBEAFE;
+    --green: #16A34A; --green-light: #F0FDF4;
+    --text: #111827; --text-muted: #6B7280; --border: #E5E7EB;
+    --bg: #FFFFFF; --bg-soft: #F9FAFB; --radius: 12px; --radius-sm: 8px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08); --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: var(--text); background: var(--bg); line-height: 1.6; }
+  a { color: inherit; text-decoration: none; }
+
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 1.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.25rem; color: var(--blue); }
+  .nav-logo svg { width: 36px; height: 36px; }
+  .nav-links { display: flex; align-items: center; gap: 1.5rem; }
+  .nav-links a { font-size: 0.9rem; color: var(--text-muted); transition: color 0.15s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--text); font-weight: 500; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 0.55rem 1.25rem; border-radius: var(--radius-sm); font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: all 0.15s; border: 1.5px solid transparent; }
+  .btn-ghost { border-color: var(--border); color: var(--text); background: var(--bg); }
+  .btn-ghost:hover { background: var(--bg-soft); }
+  .btn-primary { background: var(--blue); color: #fff; border-color: var(--blue); }
+  .btn-primary:hover { background: var(--blue-dark); }
+
+  .page-hero {
+    background: linear-gradient(180deg, var(--blue-light) 0%, var(--bg) 100%);
+    padding: 3rem 1.5rem 2rem; text-align: center;
+  }
+  .page-hero h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; margin-bottom: 0.75rem; }
+  .page-hero p { color: var(--text-muted); font-size: 1rem; max-width: 500px; margin: 0 auto 1.5rem; }
+
+  .search-bar {
+    display: flex; align-items: center; max-width: 480px; margin: 0 auto;
+    background: var(--bg); border: 2px solid var(--blue);
+    border-radius: 999px; padding: 0.35rem 0.35rem 0.35rem 1.1rem;
+    box-shadow: var(--shadow-md);
+  }
+  .search-bar input { flex: 1; border: none; outline: none; font-size: 0.9rem; background: transparent; }
+  .search-bar .btn { border-radius: 999px; padding: 0.45rem 1rem; }
+
+  .filters {
+    display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;
+    padding: 1.5rem 1.5rem 0; max-width: 900px; margin: 0 auto;
+  }
+  .filter-btn {
+    padding: 0.4rem 1rem; border-radius: 999px; font-size: 0.8rem; font-weight: 500;
+    border: 1.5px solid var(--border); background: var(--bg); cursor: pointer;
+    transition: all 0.15s; color: var(--text-muted);
+  }
+  .filter-btn:hover, .filter-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+
+  .main { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  .category-section { margin-bottom: 3rem; }
+  .category-header {
+    display: flex; align-items: center; gap: 0.75rem;
+    margin-bottom: 1.25rem; padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--blue-mid);
+  }
+  .category-icon { font-size: 1.5rem; }
+  .category-title { font-size: 1.15rem; font-weight: 700; }
+  .category-count { font-size: 0.8rem; color: var(--text-muted); background: var(--bg-soft); padding: 0.2rem 0.6rem; border-radius: 999px; border: 1px solid var(--border); }
+
+  .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
+  .service-card {
+    background: var(--bg); border: 1.5px solid var(--border);
+    border-radius: var(--radius); padding: 1.25rem;
+    cursor: pointer; transition: all 0.18s;
+    display: flex; flex-direction: column; gap: 0.5rem;
+  }
+  .service-card:hover { border-color: var(--blue); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+  .service-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem; }
+  .service-emoji { font-size: 1.75rem; }
+  .service-badge { font-size: 0.7rem; font-weight: 600; padding: 0.2rem 0.5rem; border-radius: 999px; white-space: nowrap; }
+  .badge-popular { background: #FEF3C7; color: #92400E; }
+  .badge-new { background: #DCFCE7; color: #166534; }
+  .badge-fast { background: #EDE9FE; color: #5B21B6; }
+  .service-name { font-size: 1rem; font-weight: 600; }
+  .service-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; }
+  .service-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 0.25rem; }
+  .service-price { font-size: 0.85rem; font-weight: 700; color: var(--blue); }
+  .service-anbieter { font-size: 0.75rem; color: var(--text-muted); }
+  .service-cta {
+    width: 100%; margin-top: 0.5rem; padding: 0.5rem;
+    background: var(--blue-light); color: var(--blue);
+    border: 1.5px solid var(--blue-mid); border-radius: var(--radius-sm);
+    font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.15s;
+    text-align: center;
+  }
+  .service-cta:hover { background: var(--blue); color: #fff; }
+
+  .cta-banner {
+    background: var(--blue); color: #fff; border-radius: var(--radius);
+    padding: 2.5rem; text-align: center; margin-top: 1rem;
+  }
+  .cta-banner h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .cta-banner p { opacity: 0.85; margin-bottom: 1.5rem; font-size: 0.9rem; }
+  .btn-white { background: #fff; color: var(--blue); border-color: #fff; }
+  .btn-white:hover { background: var(--blue-light); }
+
+  footer { background: #111827; color: #9CA3AF; padding: 2rem 1.5rem; text-align: center; font-size: 0.8rem; }
+  footer a { color: #6B7280; margin: 0 0.5rem; }
+  footer a:hover { color: #fff; }
+  .footer-logo { display: flex; align-items: center; gap: 8px; justify-content: center; color: #fff; font-weight: 700; font-size: 1.1rem; margin-bottom: 0.75rem; }
+
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: center; justify-content: center; padding: 1rem; }
+  .modal-overlay.active { display: flex; }
+  .modal { background: var(--bg); border-radius: 16px; padding: 2rem; width: 100%; max-width: 440px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+  .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+  .modal-header h3 { font-size: 1.1rem; font-weight: 700; }
+  .modal-close { background: none; border: none; font-size: 1.25rem; cursor: pointer; color: var(--text-muted); }
+  .form-group { margin-bottom: 1rem; }
+  .form-group label { display: block; font-size: 0.75rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 0.04em; }
+  .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.65rem 0.9rem; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-size: 0.9rem; outline: none; transition: border-color 0.15s; }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--blue); }
+  .form-group textarea { resize: vertical; min-height: 80px; }
+  .selected-service { background: var(--blue-light); border: 1.5px solid var(--blue-mid); border-radius: var(--radius-sm); padding: 0.75rem 1rem; margin-bottom: 1.25rem; font-size: 0.875rem; font-weight: 500; color: var(--blue); }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .services-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 480px) {
+    .services-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg viewBox="0 0 36 36" fill="none"><rect width="36" height="36" rx="10" fill="#2563EB"/><path d="M10 18.5L15.5 24L26 13" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    erledi
+  </a>
+  <div class="nav-links">
+    <a href="dienstleistungen.html" class="active">Dienstleistungen</a>
+    <a href="wie-es-funktioniert.html">So funktioniert's</a>
+    <a href="anbieter-werden.html">Anbieter werden</a>
+    <a href="ueber-uns.html">Über uns</a>
+  </div>
+  <div style="display:flex;gap:0.75rem;">
+    <button class="btn btn-ghost" onclick="openModal()">Einloggen</button>
+    <button class="btn btn-primary" onclick="openModal()">Registrieren</button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <h1>Alle Dienstleistungen</h1>
+  <p>Finde den passenden Profi für jeden Auftrag – schnell, sicher und lokal.</p>
+  <div class="search-bar">
+    <input type="text" placeholder="Welche Dienstleistung suchst du?" id="search-input" oninput="filterServices()">
+    <button class="btn btn-primary">Suchen</button>
+  </div>
+</div>
+
+<div class="filters">
+  <button class="filter-btn active" onclick="setFilter('alle', this)">Alle</button>
+  <button class="filter-btn" onclick="setFilter('haushalt', this)">🏠 Haushalt</button>
+  <button class="filter-btn" onclick="setFilter('handwerk', this)">🔧 Handwerk</button>
+  <button class="filter-btn" onclick="setFilter('betreuung', this)">👥 Betreuung</button>
+  <button class="filter-btn" onclick="setFilter('digital', this)">💻 Digital</button>
+  <button class="filter-btn" onclick="setFilter('outdoor', this)">🌿 Outdoor</button>
+  <button class="filter-btn" onclick="setFilter('transport', this)">🚗 Transport</button>
+</div>
+
+<div class="main">
+
+  <div class="category-section" data-cat="haushalt">
+    <div class="category-header">
+      <span class="category-icon">🏠</span>
+      <span class="category-title">Haushalt & Reinigung</span>
+      <span class="category-count">4 Dienstleistungen</span>
+    </div>
+    <div class="services-grid">
+      <div class="service-card" onclick="openRequest('Wohnungsreinigung')">
+        <div class="service-card-top"><span class="service-emoji">🧹</span><span class="service-badge badge-popular">Beliebt</span></div>
+        <div class="service-name">Wohnungsreinigung</div>
+        <div class="service-desc">Regelmässige oder einmalige Reinigung deiner Wohnung oder deines Hauses.</div>
+        <div class="service-footer"><span class="service-price">ab CHF 35/h</span><span class="service-anbieter">12 Anbieter</span></div>
+        <div class="service-cta">Jetzt anfragen →</div>
+      </div>
+      <div class="service-card" onclick="openRequest('Büroreinigung')">
+        <div class="service-card-top"><span class="service-emoji">🏢</span><span class="service-badge badge-fast">Schnell verfügbar</span></div>
+        <div class="service-name">Büroreinigung</div>
+        <div class="service-desc">Professionelle Reinigung für Büros, Praxen und Geschäftsräume.</div>
+        <div class="service-footer"><span class="service-price">ab CHF 40/h</span><span class="service-anbieter">8 Anbieter</span></div>
+        <div class="service-cta">Jetzt anfragen →</div>
+      </div>
+      <div class="service-card" onclick="openRequest('Fensterputzen')">
+        <div class="service-card-top"><span class="service-emoji">🪟</span></div>
+        <div class="service-name">Fensterputzen</div>
+        <div class="service-desc">Streifenfreie saubere Fenster innen und aussen.</div>
+        <div class="service-footer"><span class="service-price">ab CHF 30/h</span><span class="service-anbieter">6 Anbieter</span></div>
+        <div class="service-cta">Jetzt anfragen →</div>
+      </div>
+      <div class="service-card" onclick="openRequest('Umzugsreinigung')">
+        <div class="service-card-top"><span class="service-emoji">✨</span><span class="service-badge badge-popular">Beliebt</span></div>
+        <div class="service-name">Umzugsreinigung</div>
+        <div class="service-desc">Endreinigung beim Auszug – sauber für die Wohnungsabgabe.</div>
+        <div class="service-footer"><span class="service-price">ab CHF 45/h</span><span class="service-anbieter">9 Anbieter</span></div>
+        <div class="service-cta">Jetzt anfragen →</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="category-section" data-cat="transport">
+    <div class="category-header">
+      <span class="category-icon">📦</span>
+      <span class="category-title">Umzug & Transport</span>
+      <span class="category-count">3 Dienstleistungen</span>
+    </div>
+    <div class="services-grid">
+      <div class="service-card" onclick="openRequest('Wohnungsumzug')">
+        <div class="service-card-top"><span class="service-emoji">📦</span><span class="service-badge badge-popular">Beliebt</span></div>
+        <div class="service-name">Wohnungsumzug</div>
+        <div class="service-desc">Kompletter Umzugsservice – vom Einpacken bis zum Aufstellen.</div>
+        <div class="service-footer"><span class="service-price">ab CHF 80/h</span><span class="service-anbieter">7 Anbieter</span></div>
+        <div class="service-cta">Jetzt anfragen →</div>
+      </div>
+      <div class="service-card" onclick="openRequest('Einzeltransport')">
+        <div class="service-card-top"><span class="service-emoji">🚚</span></div>
+        <div class="service-name">Einzeltransport</div>
+        <div class="service-desc">Transport von einzelnen Möbeln, Geräten oder Paketen.</div>
+        <div class="service-footer"><span class="service-price">ab CHF 60/h</span><span class="service-anbieter">5 Anbieter</span></div>
+        <div class="service-cta">Jetzt anfragen →</div>
+      </div>
+      <div class="service-card" onclick="openRequest('Möbelmontage')">
+        <div class="service-card-top"><span class="service-emoji">🪑</span><span class="service-badge badge-fast">Schnell verfügbar</span></div>
+        <div class="service-name">Möbelmontage</div>
+        <div class="service-desc">IKEA und andere Möbel aufbauen – schnell und korrekt.</div>
+        <div class="service-footer"><span class="service-price">ab CHF 50/h</span><span class="service-anbieter">10 Anbieter</span></div>
+        <div class="service-cta">Jetzt anfragen →</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="category-section" data-cat="outdoor">
+    <div class="category-header">
+      <span class="category-icon">🌿</span>
+      <span class="category-title">Garten & Aussenbereich</span>
+      <span class="category-count">4 Dienstleistungen</span>
+    </div>
+    <div class="services-grid">
+      <div class="service-card" onclick="openRequest('Rasenmähen')">
+        <div class="service-card-top"><span class="service-emoji">🌱</span><span class="service-badge badge-popular">Beliebt</span></div>
+        <div class="service-name">Rasenmähen</div>
+        <div class="service-desc">Regelmässiges Mähen und Pflege deines Rasens.</div>
+        <div class="service-footer"><span class="service-price">ab CHF 40/h</span><span class="service-anbieter">8 Anbieter</span></div>
+        <div class="service-cta">Jetzt anfragen →</div>
+      </div>
+      <div class="service-card" onclick="openRequest('Hecken schneiden')">
+        <div class="service-card-top"><span class="service-emoji">✂️</span></div>
+        <div class="service-name">Hecken schneiden</div>
+        <div class="service-desc">Formschnitt und Pflege von Hecken und Sträuchern.</div>
+        <div class="service-footer"><span class="service-price">ab CHF 45/h</span><span class="service-anbieter">6 Anbieter</span></div>
+        <div class="service-cta">Jetzt anfragen →</div>
+      </div>
+      <div class="service-card" onclick="openRequest('Schneeräumung')">
+        <div class="service-card-top"><span class="service-emoji">❄️</span><span class="service-badge badge-new">Saisonal</span></div>
+        <div class="service-name">Schneeräumung</div>
+        <div class="service-desc">Zuverlässige Schneeräumung für Einfahrt, Gehweg und Parkplatz.</div>
+        <div class="service-footer"><span class="service-price">ab CHF 50/h</span><span class="service-anbieter">4 Anbieter</span></div>
+        <div class="service-cta">Jetzt anfragen →</div>
+      </div>
+      <div class="service-card" onclick="openRequest('Gartengestaltung')">
+        <div class="service-card-top"><span class="service-emoji">🌸</span></div>
+        <div class="service-name">Gartengestaltung</div>
+        <div class="service-desc">Planung und Neugestaltung deines Gartens.</div>
+        <div class="service-footer"><span class="service-price">ab CHF 60/h</span><span class="service-anbieter">3 Anbieter</span></div>
+        <div class="service-cta">Jetzt anfragen →</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="category-section" data-cat="handwerk">
+    <div class="category-header">
+      <span class="category-icon">🔧</span>
+      <span class="category-title">Handwerk & Reparaturen</span>
+      <span class="category-count">4 Dienstleistungen</span>
+    </div>
+    <div class="services-grid">
+      <div class="service-card" onclick="openRequest('Kleine Reparaturen')">
+        <div class="service-card-top"><span class="service-emoji">🔨</span><span class="service-badge badge-fast">Schnell verfügbar</span></div>
+        <div class="service-name">Kleine Reparaturen</div>
+        <div class="service-desc">Wasserhahn, Türen, Schränke – alle kleinen Reparaturen im Haushalt.</div>
+        <div class="service-footer"><span class="service-price">ab CHF 70/h</span><span class="service-anbieter">11 Anbieter</span></div>
+        <div class="service-cta">Jetzt anfragen →</div>
+      </div>
+      <div class="service-card" onclick="openRequest('Malerarbeiten')">
+        <div class="service-card-top"><span class="service-emoji">🎨</span><span class="service-badge badge-popular">Beliebt</span></div>
+        <div class="service-name">Malerarbeiten</div>
+        <div class="service-desc">Wände streichen, tapezieren und Fassadenarbeiten.</div>
+        <div class="service-footer"><span class="service-price">ab CHF 55/h</span><span class="service-anbieter">7 Anbieter</span></div>
+        <div class="service-cta">Jetzt anfragen →</div>
+      </div>
+      <div class="service-card" onclick="openRequest('Bodenverlegung')">
+        <div class="service-card-top"><span class="service-emoji">🪵</span></div>
+        <div class="service-name">Bodenverlegung</div>
+        <div class="service-desc">Laminat, Parkett und Vinyl verlegen.</div>
+        <div class="service-footer"><span class="service-price">ab CHF 65/h</span><span class="service-anbieter">5 Anbieter</span></div>
+        <div class="service-cta">Jetzt anfragen →</div>
+      </div>
+      <div class="service-card" onclick="openRequest('Elektriker')">
+        <div class="service-card-top"><span class="service-emoji">⚡</span></div>
+        <div class="service-name">Elektriker</div>
+        <div class="service-desc">Steckdosen, Lampen und kleine Elektroarbeiten.</div>
+        <div class="service-footer"><span class="service-price">ab CHF 90/h</span><span class="service-anbieter">4 Anbieter</span></div>
+        <div class="service-cta">Jetzt anfragen →</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="category-section" data-cat="betreuung">
+    <div class="category-header">
+      <span class="category-icon">👥</span>
+      <span class="category-title">Betreuung & Pflege</span>
+      <span class="category-count">4 Dienstleistungen</span>
+    </div>
+    <div class="services-grid">
+      <div class="service-card" onclick="openRequest('Kinderbetreuung')">
+        <div class="service-card-top"><span class="service-emoji">👶</span><span class="service-badge badge-popular">Beliebt</span></div>
+        <div class="service-name">Kinderbetreuung</div>
+        <div class="service-desc">Zuverlässige Betreuung für Kinder jeden Alters.</div>
+        <div class="service-footer"><span class="service-price">ab CHF 25/h</span><span class="service-anbieter">9 Anbieter</span></div>
+        <div class="service-cta">Jetzt anfragen →</div>
+      </div>
+      <div class="service-card" onclick="openRequest('Seniorenhilfe')">
+        <div class="service-card-top"><span class="service-emoji">👴</span><span class="service-badge badge-popular">Beliebt</span></div>
+        <div class="service-name">Seniorenhilfe</div>
+        <div class="service-desc">Einkaufen, Begleitung und Alltagshilfe für ältere Menschen.</div>
+        <div class="service-footer"><span class="service-price">ab CHF 30/h</span><span class="service-anbieter">7 Anbieter</span></div>
+        <div class="service-cta">Jetzt anfragen →</div>
+      </div>
+      <div class="service-card" onclick="openRequest('Tierbetreuung')">
+        <div class="service-card-top"><span class="service-emoji">🐾</span><span class="service-badge badge-new">Neu</span></div>
+        <div class="service-name">Tierbetreuung</div>
+        <div class="service-desc">Gassi gehen, Tiersitting und Pflege für dein Haustier.</div>
+        <div class="service-footer"><span class="service-price">ab CHF 20/h</span><span class="service-anbieter">6 Anbieter</span></div>
+        <div class="service-cta">Jetzt anfragen →</div>
+      </div>
+      <div class="service-card" onclick="openRequest('Fitness Coach')">
+        <div class="service-card-top"><span class="service-emoji">🏋️</span></div>
+        <div class="service-name">Fitness Coach</div>
+        <div class="service-desc">Personal Training zuhause oder im Freien.</div>
+        <div class="service-footer"><span class="service-price">ab CHF 80/h</span><span class="service-anbieter">5 Anbieter</span></div>
+        <div class="service-cta">Jetzt anfragen →</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="category-section" data-cat="digital">
+    <div class="category-header">
+      <span class="category-icon">💻</span>
+      <span class="category-title">Digital & IT</span>
+      <span class="category-count">3 Dienstleistungen</span>
+    </div>
+    <div class="services-grid">
+      <div class="service-card" onclick="openRequest('Computer einrichten')">
+        <div class="service-card-top"><span class="service-emoji">💻</span><span class="service-badge badge-fast">Schnell verfügbar</span></div>
+        <div class="service-name">Computer einrichten</div>
+        <div class="service-desc">PC oder Mac einrichten, Software installieren, Probleme lösen.</div>
+        <div class="service-footer"><span class="service-price">ab CHF 60/h</span><span class="service-anbieter">8 Anbieter</span></div>
+        <div class="service-cta">Jetzt anfragen →</div>
+      </div>
+      <div class="service-card" onclick="openRequest('Handy Hilfe für Senioren')">
+        <div class="service-card-top"><span class="service-emoji">📱</span><span class="service-badge badge-popular">Beliebt</span></div>
+        <div class="service-name">Handy-Hilfe für Senioren</div>
+        <div class="service-desc">Smartphone erklären, Apps einrichten, Geduld inklusive.</div>
+        <div class="service-footer"><span class="service-price">ab CHF 40/h</span><span class="service-anbieter">6 Anbieter</span></div>
+        <div class="service-cta">Jetzt anfragen →</div>
+      </div>
+      <div class="service-card" onclick="openRequest('Netzwerk & WLAN')">
+        <div class="service-card-top"><span class="service-emoji">📡</span></div>
+        <div class="service-name">Netzwerk & WLAN</div>
+        <div class="service-desc">Router einrichten, WLAN optimieren, Netzwerkprobleme lösen.</div>
+        <div class="service-footer"><span class="service-price">ab CHF 70/h</span><span class="service-anbieter">4 Anbieter</span></div>
+        <div class="service-cta">Jetzt anfragen →</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-banner">
+    <h2>Nicht gefunden was du suchst?</h2>
+    <p>Schreib uns – wir finden den richtigen Profi für jeden Auftrag.</p>
+    <button class="btn btn-white btn-lg" onclick="openModal()">Auftrag beschreiben</button>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-logo">
+    <svg viewBox="0 0 36 36" fill="none" width="28" height="28"><rect width="36" height="36" rx="10" fill="#2563EB"/><path d="M10 18.5L15.5 24L26 13" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    erledi
+  </div>
+  <div style="margin-bottom:0.5rem;">
+    <a href="index.html">Startseite</a>
+    <a href="ueber-uns.html">Über uns</a>
+    <a href="anbieter-werden.html">Anbieter werden</a>
+    <a href="#">Datenschutz</a>
+    <a href="#">AGB</a>
+  </div>
+  <div>© 2026 Erledi – 🇨🇭 Made in Solothurn</div>
+</footer>
+
+<div class="modal-overlay" id="modal-overlay" onclick="closeOnBg(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modal-title">Auftrag anfragen</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div id="selected-service-display" class="selected-service"></div>
+    <div class="form-group">
+      <label>Dein Name</label>
+      <input type="text" placeholder="Vorname Nachname">
+    </div>
+    <div class="form-group">
+      <label>Telefon oder E-Mail</label>
+      <input type="text" placeholder="+41 79 123 45 67">
+    </div>
+    <div class="form-group">
+      <label>Ort / PLZ</label>
+      <input type="text" placeholder="4500 Solothurn">
+    </div>
+    <div class="form-group">
+      <label>Wann brauchst du jemanden?</label>
+      <select>
+        <option>So schnell wie möglich</option>
+        <option>Diese Woche</option>
+        <option>Nächste Woche</option>
+        <option>Datum ist flexibel</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Beschreibe deinen Auftrag</label>
+      <textarea placeholder="Was genau soll erledigt werden? Je mehr Details, desto besser..."></textarea>
+    </div>
+    <button class="btn btn-primary" style="width:100%;padding:0.75rem;" onclick="submitRequest()">Anfrage senden →</button>
+    <p style="font-size:0.75rem;color:var(--text-muted);text-align:center;margin-top:0.75rem;">Kostenlos und unverbindlich. Wir melden uns innerhalb 2 Stunden.</p>
+  </div>
+</div>
+
+<script>
+function setFilter(cat, el) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.category-section').forEach(s => {
+    if (cat === 'alle' || s.dataset.cat === cat) s.style.display = '';
+    else s.style.display = 'none';
+  });
+}
+function filterServices() {
+  var q = document.getElementById('search-input').value.toLowerCase();
+  document.querySelectorAll('.service-card').forEach(card => {
+    var text = card.textContent.toLowerCase();
+    card.style.display = text.includes(q) ? '' : 'none';
+  });
+}
+function openRequest(service) {
+  document.getElementById('modal-overlay').classList.add('active');
+  document.getElementById('selected-service-display').textContent = '📋 Dienstleistung: ' + service;
+  document.getElementById('modal-title').textContent = service + ' anfragen';
+}
+function openModal() {
+  document.getElementById('modal-overlay').classList.add('active');
+  document.getElementById('selected-service-display').textContent = '📋 Andere Dienstleistung';
+  document.getElementById('modal-title').textContent = 'Auftrag anfragen';
+}
+function closeModal() { document.getElementById('modal-overlay').classList.remove('active'); }
+function closeOnBg(e) { if (e.target === document.getElementById('modal-overlay')) closeModal(); }
+function submitRequest() {
+  document.querySelector('.modal .form-group').closest('.modal').innerHTML = '<div style="text-align:center;padding:2rem;"><div style="font-size:3rem;margin-bottom:1rem;">✅</div><h3 style="margin-bottom:0.5rem;">Anfrage gesendet!</h3><p style="color:var(--text-muted);font-size:0.875rem;">Wir melden uns innerhalb von 2 Stunden bei dir.</p><button class="btn btn-primary" style="margin-top:1.5rem;width:100%;" onclick="closeModal()">Schliessen</button></div>';
+}
+</script>
+</body>
+</html>
